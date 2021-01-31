@@ -1,0 +1,35 @@
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Image Uploader</title>
+    <link rel="stylesheet" href="styles.css" />
+    <script src="./app.js" defer></script>
+    <script src="https://unpkg.com/vue@next"></script>
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link href="
+    <link rel="preconnect" href="https://fonts.gstatic.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap"
+      rel="stylesheet"
+    />
+  </head>
+  <body>
+    <div id="app">
+      <div id="image-form" enc-type="multipart/form-data">
+        <label for="image"
+          >Click here to add image<input
+            v-on:change="newFile"
+            ref="file"
+            type="file"
+            name="image"
+            id="image"
+        /></label>
+        <button @click="pushImage">Upload!</button>
+      </div>
+      <div class="images" v-if="imageUrl !== ''">
+        <img :src="imageUrl" alt="" />
+      </div>
+    </div>
+  </body>
+</html>

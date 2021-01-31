@@ -1,0 +1,57 @@
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background:#FFFFFF;
+  font-family: 'Rubik', sans-serif;
+}
+
+#image-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 30%;
+  margin: 50px auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  padding: 10px 15px;
+}
+
+.images {
+  display: flex;
+  flex-direction: column;
+  width: 40%;
+  margin: 0px auto;
+}
+
+label,
+input,
+button {
+  margin-top: 10px;
+  font-size: 20px;
+  text-align: center;
+  font-family: inherit;
+}
+
+button, input {
+  border: none;
+  width: 50%;
+  align-self: center;
+  padding: 5px;
+  border-radius: 8px;
+  background-color: #800000;
+  cursor: pointer;
+  color: #FFFFFF;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+label {
+    cursor: pointer;
+    font-size: 40px;
+}
