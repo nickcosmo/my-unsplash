@@ -26,10 +26,15 @@
             id="image"
         /></label>
         <button @click="pushImage">Upload!</button>
+        <button @click="getImages">Get!</button>
       </div>
-      <div class="images" v-if="imageUrl !== ''">
+      <!-- <div class="images" v-if="imageUrl !== ''" v-for="image in images">
         <img :src="imageUrl" alt="" />
+      </div> -->
+      <div class="images" v-if="images.length !== 0" v-for="image in images">
+        <img :src="image.imageUrl" alt="" />
       </div>
+      <div class="images" v-else>No Images :(</div>
     </div>
   </body>
 </html>

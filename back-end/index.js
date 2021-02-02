@@ -2,6 +2,7 @@ const express = require("express");
 const multer = require("multer");
 const path = require("path");
 const bodyParser = require("body-parser");
+const fs = require("fs");
 
 const app = express();
 
@@ -37,6 +38,17 @@ app.use(multer({ storage: storage, fileFilter: fileFilter }).single("image"));
 app.use(bodyParser.json());
 app.use("/images", express.static(path.join(__dirname, "images-folder")));
 
+app.get("/all", (req, res, next) => {
+  const imagesPath = path.join(__dirname, "/images");
+  const files = fs.readdirSync(imagesPath);
+
+  const imageFiles = files.map((path) => __dirname + "/images" + "/" + path);
+  for (let i = 0; i < imageFiles.length; i++) {
+    imageFiles[i] = { imageUrl: imageFiles[i] };
+  }
+  res.status(200).json({ images: imageFiles });
+});
+
 app.post("/image-upload", (req, res, next) => {
   if (!req.file) {
     return res.status(401).send("no image");
@@ -45,6 +57,6 @@ app.post("/image-upload", (req, res, next) => {
   res.status(200).json({ path: __dirname + "/" + req.file.path });
 });
 
-app.listen(8080, () => {  
+app.listen(8080, () => {
   console.log("connection successful");
 });

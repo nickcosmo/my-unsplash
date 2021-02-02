@@ -5,8 +5,8 @@
 }
 
 body {
-  background:#FFFFFF;
-  font-family: 'Rubik', sans-serif;
+  background: #ffffff;
+  font-family: "Rubik", sans-serif;
 }
 
 #image-form {
@@ -20,12 +20,27 @@ body {
   padding: 10px 15px;
 }
 
-.images {
+/* .images {
   display: flex;
   flex-direction: column;
   width: 40%;
   margin: 0px auto;
+} */
+
+.images {
+  display: grid;
+  gap: 10px;
+  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+  grid-template-rows: masonry;
 }
+
+img {
+  margin-top: 5px;
+}
+
+/* img:nth-child(n + 4) {
+  margin-top: 5px;
+} */
 
 label,
 input,
@@ -36,7 +51,8 @@ button {
   font-family: inherit;
 }
 
-button, input {
+button,
+input {
   border: none;
   width: 50%;
   align-self: center;
@@ -44,14 +60,14 @@ button, input {
   border-radius: 8px;
   background-color: #800000;
   cursor: pointer;
-  color: #FFFFFF;
+  color: #ffffff;
 }
 
 input[type="file"] {
-    display: none;
+  display: none;
 }
 
 label {
-    cursor: pointer;
-    font-size: 40px;
+  cursor: pointer;
+  font-size: 40px;
 }
