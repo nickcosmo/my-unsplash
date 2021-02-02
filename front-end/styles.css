@@ -20,22 +20,20 @@ body {
   padding: 10px 15px;
 }
 
-/* .images {
-  display: flex;
-  flex-direction: column;
-  width: 40%;
-  margin: 0px auto;
-} */
-
 .images {
   display: grid;
-  gap: 10px;
-  grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
-  grid-template-rows: masonry;
+  margin: 0px auto;
+  max-width: 75%;
+  /* width: 200px; */
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+  grid-gap: 15px;
 }
 
 img {
   margin-top: 5px;
+  width: 100%;
+  border-radius: 10px;
 }
 
 /* img:nth-child(n + 4) {
