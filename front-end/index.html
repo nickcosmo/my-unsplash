@@ -25,15 +25,16 @@
             name="image"
             id="image"
         /></label>
+        <p>Or, drag and drop..</p>
+        <upload-area @got-drag-file="gotDragFile"></upload-area>
+        <div v-if="file !== null">
+          <img :src="file.name" alt="">
+        </div>
         <button @click="pushImage">Upload!</button>
-        <button @click="getImages">Get!</button>
       </div>
-      <!-- <div class="images" v-if="imageUrl !== ''" v-for="image in images">
-        <img :src="imageUrl" alt="" />
-      </div> -->
       <div class="images" v-if="images.length !== 0">
         <div v-for="image in images">
-          <img :src="image.imageUrl" alt="" />
+          <img :src="image.imageUrl" class="grid_image" alt="" />
         </div>
       </div>
       <!-- <div class="images" v-else>No Images :(</div> -->

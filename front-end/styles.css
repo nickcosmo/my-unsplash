@@ -5,7 +5,7 @@
 }
 
 body {
-  background: #ffffff;
+  background: #EFEFEF;
   font-family: "Rubik", sans-serif;
 }
 
@@ -23,6 +23,7 @@ body {
 .images {
   display: grid;
   margin: 0px auto;
+  margin-bottom: 15px;
   max-width: 75%;
   /* width: 200px; */
   grid-template-columns: 1fr 1fr 1fr;
@@ -30,10 +31,11 @@ body {
   grid-gap: 15px;
 }
 
-img {
+.grid_image {
   margin-top: 5px;
   width: 100%;
   border-radius: 10px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 }
 
 /* img:nth-child(n + 4) {
@@ -42,7 +44,8 @@ img {
 
 label,
 input,
-button {
+button,
+p {
   margin-top: 10px;
   font-size: 20px;
   text-align: center;
@@ -50,7 +53,8 @@ button {
 }
 
 button,
-input {
+input,
+label {
   border: none;
   width: 50%;
   align-self: center;
@@ -65,7 +69,21 @@ input[type="file"] {
   display: none;
 }
 
-label {
+/* label {
   cursor: pointer;
   font-size: 40px;
+} */
+
+#file-drag {
+  display: flex;
+  width: 50%;
+  height: 100px;
+  margin: 5px auto;
+  border-color: black;
+  border-width: 3px;
+  border-style: dashed;
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
 }
