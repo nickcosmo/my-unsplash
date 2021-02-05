@@ -16,7 +16,10 @@
   </head>
   <body>
     <div id="app">
-      <div id="image-form" enc-type="multipart/form-data">
+      <div class="nav">
+        <button @click="showTheForm" class="nav_button">+</button>
+      </div>
+      <div v-if="showForm" id="image-form" enc-type="multipart/form-data">
         <label for="image"
           >Click here to add image<input
             v-on:change="newFile"
@@ -25,12 +28,12 @@
             name="image"
             id="image"
         /></label>
-        <p>Or, drag and drop..</p>
+        <p class="form-text">Or, drag and drop..</p>
         <upload-area @got-drag-file="gotDragFile"></upload-area>
         <div v-if="file !== null">
           <img :src="file.name" alt="">
         </div>
-        <button @click="pushImage">Upload!</button>
+        <button class="form_button" @click="pushImage">Upload!</button>
       </div>
       <div class="images" v-if="images.length !== 0">
         <div v-for="image in images">

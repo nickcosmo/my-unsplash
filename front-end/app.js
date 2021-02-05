@@ -7,11 +7,15 @@ const app = Vue.createApp({
       file: null,
       imageUrl: "",
       images: [],
+      showForm: false
     };
   },
   methods: {
     newFile() {
       this.file = this.$refs.file.files[0];
+    },
+    showTheForm() {
+      this.showForm = !this.showForm;
     },
     gotDragFile(data) {
       this.file = data[0];
