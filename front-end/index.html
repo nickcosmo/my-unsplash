@@ -17,27 +17,41 @@
   <body>
     <div id="app">
       <div class="nav">
+        <h1 style="margin-right: 10px">My Photo Grid</h1>
         <button @click="showTheForm" class="nav_button">+</button>
       </div>
-      <div v-if="showForm" id="image-form" enc-type="multipart/form-data">
-        <label for="image"
-          >Click here to add image<input
-            v-on:change="newFile"
-            ref="file"
-            type="file"
-            name="image"
-            id="image"
-        /></label>
-        <p class="form-text">Or, drag and drop..</p>
-        <upload-area @got-drag-file="gotDragFile"></upload-area>
-        <div v-if="file !== null">
-          <img :src="file.name" alt="">
+      <transition>
+        <div v-if="showForm" id="image-form" enc-type="multipart/form-data">
+          <div id="upload-wrapper">
+            <div id="preview" v-if="file">
+              <img :src="previewUrl" alt="image-preview" />
+            </div>
+            <upload-area v-else @got-drag-file="gotDragFile">
+              <label for="image"
+                ><strong>Click here to add image</strong
+                ><input
+                  v-on:change="newFile"
+                  ref="file"
+                  type="file"
+                  name="image"
+                  id="image"
+              /></label>
+              <p>Or</p>
+              <p>Drag and Drop ....</p>
+            </upload-area>
+          </div>
+          <button
+            :class="{disabled: hasImage}"
+            class="form_button"
+            @click="pushImage"
+          >
+            Upload!
+          </button>
         </div>
-        <button class="form_button" @click="pushImage">Upload!</button>
-      </div>
+      </transition>
       <div class="images" v-if="images.length !== 0">
         <div v-for="image in images">
-          <img :src="image.imageUrl" class="grid_image" alt="" />
+          <app-image :key="image" :="image"></app-image>
         </div>
       </div>
       <!-- <div class="images" v-else>No Images :(</div> -->

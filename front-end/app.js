@@ -1,14 +1,27 @@
 const app = Vue.createApp({
   data() {
     return {
-      imageName: "",
-      uploadedAt: "",
-      userName: "",
+      // imageName: "",
+      // uploadedAt: "",
+      // userName: "",
       file: null,
       imageUrl: "",
       images: [],
-      showForm: false
+      showForm: false,
     };
+  },
+  computed: {
+    hasImage() {
+      if (this.file) {
+        return false;
+      }
+      return true;
+    },
+    previewUrl() {
+      if (this.file) {
+        return URL.createObjectURL(this.file);
+      }
+    },
   },
   methods: {
     newFile() {
@@ -19,7 +32,6 @@ const app = Vue.createApp({
     },
     gotDragFile(data) {
       this.file = data[0];
-      console.log(this.file);
     },
     async pushImage() {
       let fd = new FormData();
@@ -31,6 +43,8 @@ const app = Vue.createApp({
       const responseData = await response.json();
       // this.imageUrl = responseData.path.toString();
       this.images.unshift({ imageUrl: responseData.path.toString() });
+      this.showForm = false;
+      this.file = null;
     },
   },
   async created() {
@@ -38,14 +52,14 @@ const app = Vue.createApp({
       method: "GET",
     });
     const responseData = await response.json();
-    this.images = responseData.images;
-    console.log(this.images);
+    this.images = JSON.parse(JSON.stringify(responseData.images));
+    console.log(JSON.parse(JSON.stringify(this.images))[0].imageUrl);
   },
 });
 
 app.component("upload-area", {
   template: `
-    <div @drop.prevent="fileReceipt" @propagation.prevent @dragenter.prevent @dragover.prevent id="file-drag" ref="fileform">Drag and drop file here!</div>
+    <div @drop.prevent="fileReceipt" @propagation.prevent @dragenter.prevent @dragover.prevent id="file-drag" ref="fileform"><slot></slot></div>
   `,
   data() {
     return {
@@ -66,64 +80,40 @@ app.component("upload-area", {
       this.$emit("gotDragFile", e.dataTransfer.files);
     },
   },
-  // mounted() {
-  //   /*
-  //   Determine if drag and drop functionality is capable in the browser
-  //   */
-  //   this.dragAndDropCapable = this.determineDragAndDropCapable();
+});
 
-  //   /*
-  //   If drag and drop capable, then we continue to bind events to our elements.
-  //   */
-  //   if (this.dragAndDropCapable) {
-  //     /*
-  //     Listen to all of the drag events and bind an event listener to each
-  //     for the fileform.
-  //     */
-  //     [
-  //       "drag",
-  //       "dragstart",
-  //       "dragend",
-  //       "dragover",
-  //       "dragenter",
-  //       "dragleave",
-  //       "drop",
-  //     ].forEach(
-  //       function (evt) {
-  //         /*
-  //         For each event add an event listener that prevents the default action
-  //         (opening the file in the browser) and stop the propagation of the event (so
-  //         no other elements open the file in the browser)
-  //         */
-  //         this.$refs.fileform.addEventListener(
-  //           evt,
-  //           function (e) {
-  //             e.preventDefault();
-  //             e.stopPropagation();
-  //           }.bind(this),
-  //           false
-  //         );
-  //       }.bind(this)
-  //     );
-
-  //     /*
-  //     Add an event listener for drop to the form
-  //     */
-  //     this.$refs.fileform.addEventListener(
-  //       "drop",
-  //       function (e) {
-  //         /*
-  //       Capture the files from the drop event and add them to our local files
-  //       array.
-  //       */
-  //      console.log(e.dataTransfer.files);
-  //         for (let i = 0; i < e.dataTransfer.files.length; i++) {
-  //           this.files.push(e.dataTransfer.files[i]);
-  //         }
-  //       }.bind(this)
-  //     );
-  //   }
-  // },
+app.component("app-image", {
+  template: `
+  <div class="grid_image-container" @mouseenter="showTheBanner" @mouseleave="showTheBanner">
+  <div v-if="showBanner" class="grid_image-banner">
+    <p>Image Name</p>
+    <p>X</p>
+  </div>
+  <img
+    @click="showSource"
+    :src="imageUrl"
+    class="grid_image"
+    alt=""
+  ></img>
+  </div>
+  `,
+  props: ["imageUrl"],
+  data() {
+    return {
+      showBanner: false,
+    };
+  },
+  methods: {
+    showTheBanner() {
+      this.showBanner = !this.showBanner;
+    },
+    showSource(event) {
+      console.log(event.target.src.split("/")[12]);
+    },
+    showUrl() {
+      console.log(this.imageUrl);
+    }
+  },
 });
 
 app.mount("#app");
