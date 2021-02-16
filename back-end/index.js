@@ -57,6 +57,23 @@ app.post("/image-upload", (req, res, next) => {
   res.status(200).json({ path: __dirname + "/" + req.file.path });
 });
 
+app.delete("/delete-image", (req, res, next) => {
+  const imageUrl = req.body.imageUrl;
+
+  fs.unlinkSync(__dirname + "/images" + "/" + imageUrl);
+
+  // res.redirect("/all");
+
+  const imagesPath = path.join(__dirname, "/images");
+  const files = fs.readdirSync(imagesPath);
+
+  const imageFiles = files.map((path) => __dirname + "/images" + "/" + path);
+  for (let i = 0; i < imageFiles.length; i++) {
+    imageFiles[i] = { imageUrl: imageFiles[i] };
+  }
+  res.status(200).json({ images: imageFiles });
+});
+
 app.listen(8080, () => {
   console.log("connection successful");
 });
