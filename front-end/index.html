@@ -13,13 +13,24 @@
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap"
       rel="stylesheet"
     />
+    <link
+      href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet"
+    />
   </head>
   <body>
     <div id="app">
       <div class="nav">
         <h1 style="margin-right: 10px">My Photo Grid</h1>
-        <button @click="showTheForm" class="nav_button">+</button>
+        <button
+          @click="showTheForm"
+          :class="{open: showForm}"
+          class="nav_button material-icons"
+        >
+          add
+        </button>
       </div>
+      <div class="form-background" v-if="showForm" @click="showTheForm"></div>
       <transition>
         <div v-if="showForm" id="image-form" enc-type="multipart/form-data">
           <div id="upload-wrapper">
@@ -40,11 +51,7 @@
               <p>Drag and Drop ....</p>
             </upload-area>
           </div>
-          <button
-            :class="{disabled: hasImage}"
-            class="form_button"
-            @click="pushImage"
-          >
+          <button v-if="file" class="form_button" @click="pushImage">
             Upload!
           </button>
         </div>

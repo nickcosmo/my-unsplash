@@ -11,12 +11,6 @@ const app = Vue.createApp({
     };
   },
   computed: {
-    hasImage() {
-      if (this.file) {
-        return false;
-      }
-      return true;
-    },
     previewUrl() {
       if (this.file) {
         return URL.createObjectURL(this.file);
@@ -52,8 +46,8 @@ const app = Vue.createApp({
       method: "GET",
     });
     const responseData = await response.json();
-    this.images = JSON.parse(JSON.stringify(responseData.images));
-    console.log(JSON.parse(JSON.stringify(this.images))[0].imageUrl);
+    this.images = responseData.images;
+    // console.log(JSON.parse(JSON.stringify(this.images))[0].imageUrl);
   },
 });
 
@@ -85,16 +79,17 @@ app.component("upload-area", {
 app.component("app-image", {
   template: `
   <div class="grid_image-container" @mouseenter="showTheBanner" @mouseleave="showTheBanner">
-  <div v-if="showBanner" class="grid_image-banner">
-    <p>Image Name</p>
-    <p>X</p>
-  </div>
-  <img
-    @click="showSource"
-    :src="imageUrl"
-    class="grid_image"
-    alt=""
-  ></img>
+    <transition name="banner">
+      <div v-if="showBanner" class="grid_image-banner">
+        <p class="material-icons md-light">clear</p>
+      </div>
+    </transition>
+    <img
+      @click="showSource"
+      :src="imageUrl"
+      class="grid_image"
+      alt=""
+    />
   </div>
   `,
   props: ["imageUrl"],
