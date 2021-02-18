@@ -57,10 +57,17 @@ app.post("/image-upload", (req, res, next) => {
   res.status(200).json({ path: __dirname + "/" + req.file.path });
 });
 
-app.delete("/delete-image", (req, res, next) => {
-  const imageUrl = req.body.imageUrl;
+app.get("/image-download/:imageName", (req, res, next) => {
+  const image = path.join(__dirname, "/images", `/${req.params.imageName}`);
+  res.setHeader("Content-Type", "image/jpeg");
+  res.setHeader("Content-Disposition", "attachment");
+  res.download(image);
+});
 
-  fs.unlinkSync(__dirname + "/images" + "/" + imageUrl);
+app.delete("/delete-image", (req, res, next) => {
+  const imageName = req.body.imageName;
+
+  fs.unlinkSync(__dirname + "/images" + "/" + imageName);
 
   // res.redirect("/all");
 
