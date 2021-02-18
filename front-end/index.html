@@ -7,8 +7,6 @@
     <script src="./app.js" defer></script>
     <script src="https://unpkg.com/vue@next"></script>
     <link rel="preconnect" href="https://fonts.gstatic.com" />
-    <link href="
-    <link rel="preconnect" href="https://fonts.gstatic.com" />
     <link
       href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap"
       rel="stylesheet"
@@ -38,6 +36,7 @@
               <img :src="previewUrl" alt="image-preview" />
             </div>
             <upload-area v-else @got-drag-file="gotDragFile">
+              <p class="material-icons">image_search</p>
               <label for="image"
                 ><strong>Click here to add image</strong
                 ><input
@@ -58,7 +57,7 @@
       </transition>
       <div class="images" v-if="images.length !== 0">
         <div v-for="image in images">
-          <app-image :key="image" :="image"></app-image>
+          <app-image :key="image" :="image" @delete-this-image="sendImageDeletion"></app-image>
         </div>
       </div>
       <!-- <div class="images" v-else>No Images :(</div> -->

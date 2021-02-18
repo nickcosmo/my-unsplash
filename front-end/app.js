@@ -40,6 +40,17 @@ const app = Vue.createApp({
       this.showForm = false;
       this.file = null;
     },
+    async sendImageDeletion(imageName) {
+      const response = await fetch("http://localhost:8080/delete-image", {
+        headers: {
+          "Content-Type": "application/json",
+        },
+        method: "DELETE",
+        body: JSON.stringify({ imageName: imageName }),
+      });
+      const responseData = await response.json();
+      this.images = responseData.images;
+    },
   },
   async created() {
     const response = await fetch("http://localhost:8080/all", {
@@ -81,11 +92,11 @@ app.component("app-image", {
   <div class="grid_image-container" @mouseenter="showTheBanner" @mouseleave="showTheBanner">
     <transition name="banner">
       <div v-if="showBanner" class="grid_image-banner">
-        <p class="material-icons md-light">clear</p>
+      <a :download="imageUrl" :href="'http://localhost:8080/image-download/' + imageName"><p class="material-icons md-48" @click="deleteImage">download_for_offline</p></a>
+        <p class="material-icons md-48" @click="deleteImage">cancel</p>
       </div>
     </transition>
     <img
-      @click="showSource"
       :src="imageUrl"
       class="grid_image"
       alt=""
@@ -98,16 +109,36 @@ app.component("app-image", {
       showBanner: false,
     };
   },
+  computed: {
+    imageName() {
+      return this.imageUrl.split("/")[2];
+    }
+  },  
   methods: {
     showTheBanner() {
       this.showBanner = !this.showBanner;
     },
-    showSource(event) {
-      console.log(event.target.src.split("/")[12]);
-    },
     showUrl() {
       console.log(this.imageUrl);
-    }
+    },
+    deleteImage(event) {
+      const image = event.target.parentElement.nextElementSibling;
+      const imageName = image.src.split("/")[12];
+      this.$emit("deleteThisImage", imageName);
+    },
+    // async downloadImage(event) {
+    //   const image = event.target;
+    //   imageName = image.src.split("/")[12];
+    //   await fetch(`http://localhost:8080/image-download/${imageName}`, {
+    //     method: "GET",
+    //     // mode: "no-cors",
+    //   });
+    //   // console.log(response);
+    //   // response.download;
+    //   // const responseBlob = await response.blob();
+    //   // responseBlob.download;
+    //   // console.log(URL.createObjectURL(responseBlob));
+    // }
   },
 });
 

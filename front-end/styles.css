@@ -82,17 +82,22 @@ button {
   display: inline-block;
   color: #EFEFEF;
   width: inherit;
-  height: 40px;
+  height: 60px;
   position: absolute;
-  background-color: rgba(0, 0, 0, 0.5);
+  /* background-color: rgba(0, 0, 0, 0.05); */
   padding: 0 10px;
   display: flex;
   align-items: center;
-  justify-content: flex-end;
+  justify-content: space-between;
+}
+
+.grid_image-banner a {
+  color: #EFEFEF;
 }
 
 .grid_image-banner p {
-  opacity: 50%;
+  font-size: 48px;
+  opacity: 80%;
 }
 
 .grid_image-banner p:hover {
@@ -200,11 +205,16 @@ input[type="file"] {
   height: 90%;
   flex-direction: column;
   background-color: rgb(212, 212, 212);
+  border-radius: 10px;
   text-align: center;
   align-items: center;
   justify-content: center;
   display: flex;
   padding: 10px;
+}
+
+#file-drag .material-icons {
+  font-size: 36px !important;
 }
 
 #preview img {
