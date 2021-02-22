@@ -19,14 +19,22 @@
   <body>
     <div id="app">
       <div class="nav">
-        <h1 style="margin-right: 10px">My Photo Grid</h1>
-        <button
-          @click="showTheForm"
-          :class="{open: showForm}"
-          class="nav_button material-icons"
-        >
-          add
-        </button>
+        <div class="nav-left" style="display: flex; align-items: center">
+          <h1 class="material-icons">camera</h1>
+          <h1 style="margin-right: 10px">My Unsplash</h1>
+          <!-- <i class="material-icons">search</i> -->
+          <input type="text" name="search" id="search" placeholder="search for an image"/>
+        </div>
+        <div style="display: flex; align-items: center">
+          <h2>Add a New Photo</h2>
+          <button
+            @click="showTheForm"
+            :class="{open: showForm}"
+            class="nav_button material-icons"
+          >
+            add
+          </button>
+        </div>
       </div>
       <div class="form-background" v-if="showForm" @click="showTheForm"></div>
       <transition>
@@ -44,7 +52,7 @@
                   ref="file"
                   type="file"
                   name="image"
-                  id="image"
+                  id="image-input"
               /></label>
               <p>Or</p>
               <p>Drag and Drop ....</p>
@@ -57,7 +65,11 @@
       </transition>
       <div class="images" v-if="images.length !== 0">
         <div v-for="image in images">
-          <app-image :key="image" :="image" @delete-this-image="sendImageDeletion"></app-image>
+          <app-image
+            :key="image"
+            :="image"
+            @delete-this-image="sendImageDeletion"
+          ></app-image>
         </div>
       </div>
       <!-- <div class="images" v-else>No Images :(</div> -->
