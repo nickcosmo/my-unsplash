@@ -2,11 +2,13 @@
 
 This project is my submission to [this full stack dev challenge](https://devchallenges.io/challenges/rYyhwJAxMfES5jNQ9YsP)
 
-##Technologies Used
+## Technologies Used
  * Front-End: Vue3
  * Back-End: NodeJS REST API
 
-* User Story
+## Challenge
+
+Create my Unsplash app. Use Front-end libraries like React or Vue. Create your own API. Don’t look at the existing solution. Fulfill user stories below:
   * I can see a list of photos in the masonry layout that I have added
   * I can add a new photo to the list - the new photo should be on top of the list
   * I can search for photos by label
