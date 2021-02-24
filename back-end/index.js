@@ -3,8 +3,11 @@ const multer = require("multer");
 const path = require("path");
 const bodyParser = require("body-parser");
 const fs = require("fs");
+const { initDb, getDb } = require("./db.js");
 
 const app = express();
+
+require("dotenv").config();
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "*"); // allow any origin to access API data
@@ -49,12 +52,21 @@ app.get("/all", (req, res, next) => {
   res.status(200).json({ images: imageFiles });
 });
 
-app.post("/image-upload", (req, res, next) => {
+app.post("/image-upload", async (req, res, next) => {
   if (!req.file) {
     return res.status(401).send("no image");
   }
   req.file.path = req.file.path.replace("\\", "/");
-  res.status(200).json({ path: __dirname + "/" + req.file.path });
+
+  try {
+    const newImage = await
+      getDb()
+      .collection("images")
+      .insertOne({ path: __dirname + "/" + req.file.path });
+      res.status(200).json({ path: newImage.ops[0].path });
+  } catch (err) {
+    console.log(err);
+  }
 });
 
 app.get("/image-download/:imageName", (req, res, next) => {
@@ -81,6 +93,12 @@ app.delete("/delete-image", (req, res, next) => {
   res.status(200).json({ images: imageFiles });
 });
 
-app.listen(8080, () => {
-  console.log("connection successful");
+initDb((err, db) => {
+  if (err) {
+    console.log(err);
+  } else {
+    app.listen(8080, () => {
+      console.log("connection successful");
+    });
+  }
 });
