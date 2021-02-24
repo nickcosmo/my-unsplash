@@ -41,28 +41,31 @@ app.use(multer({ storage: storage, fileFilter: fileFilter }).single("image"));
 app.use(bodyParser.json());
 app.use("/images", express.static(path.join(__dirname, "images-folder")));
 
-app.get("/all", (req, res, next) => {
+app.get("/all", async (req, res, next) => {
   const imagesPath = path.join(__dirname, "/images");
   const files = fs.readdirSync(imagesPath);
 
-  const imageFiles = files.map((path) => __dirname + "/images" + "/" + path);
-  for (let i = 0; i < imageFiles.length; i++) {
-    imageFiles[i] = { imageUrl: imageFiles[i] };
-  }
+  const imageFiles = await getDb().collection('images').find().toArray();
+  console.log(imageFiles);
+
+  // const imageFiles = files.map((path) => __dirname + "/images" + "/" + path);
+  // for (let i = 0; i < imageFiles.length; i++) {
+  //   imageFiles[i] = { imageUrl: imageFiles[i] };
+  // }
   res.status(200).json({ images: imageFiles });
 });
 
 app.post("/image-upload", async (req, res, next) => {
-  if (!req.file) {
-    return res.status(401).send("no image");
-  }
+  // if (!req.file) {
+  //   return res.status(401).send("no image");
+  // }
   req.file.path = req.file.path.replace("\\", "/");
 
   try {
     const newImage = await
       getDb()
       .collection("images")
-      .insertOne({ path: __dirname + "/" + req.file.path });
+      .insertOne({ path: __dirname + "/" + req.file.path, name: req.body.fileName });
       res.status(200).json({ path: newImage.ops[0].path });
   } catch (err) {
     console.log(err);

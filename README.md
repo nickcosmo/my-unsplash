@@ -4,7 +4,7 @@ This project is my submission to [this full stack dev challenge](https://devchal
 
 ## Technologies Used
  * Front-End: Vue3
- * Back-End: NodeJS REST API
+ * Back-End: NodeJS and MongoDB
 
 ## Challenge
 

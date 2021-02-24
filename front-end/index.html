@@ -45,18 +45,22 @@
             </div>
             <upload-area v-else @got-drag-file="gotDragFile">
               <p class="material-icons">image_search</p>
-              <label for="image"
+              <label for="image-input"
                 ><strong>Click here to add image</strong
                 ><input
                   v-on:change="newFile"
                   ref="file"
                   type="file"
-                  name="image"
+                  name="image-input"
                   id="image-input"
               /></label>
               <p>Or</p>
               <p>Drag and Drop ....</p>
             </upload-area>
+          </div>
+          <div class="image-name-container">
+            <label for="image-name">Title:</label>
+            <input @input="updateFileName" type="text" name="image-name" id="image-name-input" />
           </div>
           <button v-if="file" class="form_button" @click="pushImage">
             Upload!

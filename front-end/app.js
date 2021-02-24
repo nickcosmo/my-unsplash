@@ -5,6 +5,7 @@ const app = Vue.createApp({
       // uploadedAt: "",
       // userName: "",
       file: null,
+      fileName: null,
       imageUrl: "",
       images: [],
       showForm: false,
@@ -27,16 +28,20 @@ const app = Vue.createApp({
     gotDragFile(data) {
       this.file = data[0];
     },
+    updateFileName(e) {
+      this.fileName = e.target.value;
+    },
     async pushImage() {
       let fd = new FormData();
       fd.append("image", this.file);
+      fd.append("fileName", this.fileName);
       const response = await fetch("http://localhost:8080/image-upload", {
         method: "POST",
         body: fd,
       });
       const responseData = await response.json();
       // this.imageUrl = responseData.path.toString();
-      this.images.unshift({ imageUrl: responseData.path.toString() });
+      this.images.unshift({ path: responseData.path.toString(), name: responseData.name });
       this.showForm = false;
       this.file = null;
     },
@@ -92,18 +97,18 @@ app.component("app-image", {
   <div class="grid_image-container" @mouseenter="showTheBanner" @mouseleave="showTheBanner">
     <transition name="banner">
       <div v-if="showBanner" class="grid_image-banner">
-      <a :download="imageUrl" :href="'http://localhost:8080/image-download/' + imageName"><p class="material-icons md-48" @click="deleteImage">download_for_offline</p></a>
+      <a :download="path" :href="'http://localhost:8080/image-download/' + imageName"><p class="material-icons md-48" @click="deleteImage">download_for_offline</p></a>
         <p class="material-icons md-48" @click="deleteImage">cancel</p>
       </div>
     </transition>
     <img
-      :src="imageUrl"
+      :src="path"
       class="grid_image"
       alt=""
     />
   </div>
   `,
-  props: ["imageUrl"],
+  props: ["path"],
   data() {
     return {
       showBanner: false,
@@ -111,7 +116,7 @@ app.component("app-image", {
   },
   computed: {
     imageName() {
-      return this.imageUrl.split("/")[2];
+      return this.path.split("/")[2];
     }
   },  
   methods: {
@@ -119,7 +124,7 @@ app.component("app-image", {
       this.showBanner = !this.showBanner;
     },
     showUrl() {
-      console.log(this.imageUrl);
+      console.log(this.path);
     },
     deleteImage(event) {
       const image = event.target.parentElement.nextElementSibling;
