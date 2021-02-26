@@ -27,14 +27,24 @@ const app = Vue.createApp({
     },
     gotDragFile(data) {
       this.file = data[0];
+      Object.defineProperty(this.file, 'name', {
+        writable: true,
+        value: "name.jpg"
+      });
+      console.log(data[0]);
     },
     updateFileName(e) {
       this.fileName = e.target.value;
+      Object.defineProperty(this.file, 'name', {
+        writable: true,
+        value: e.target.value + ".jpg"
+      });
     },
-    async pushImage() {
+    async pushImage(e) {
+      e.preventDefault();
       let fd = new FormData();
-      fd.append("image", this.file);
       fd.append("fileName", this.fileName);
+      fd.append("image", this.file);
       const response = await fetch("http://localhost:8080/image-upload", {
         method: "POST",
         body: fd,
@@ -45,13 +55,13 @@ const app = Vue.createApp({
       this.showForm = false;
       this.file = null;
     },
-    async sendImageDeletion(imageName) {
+    async sendImageDeletion(imagePath) {
       const response = await fetch("http://localhost:8080/delete-image", {
         headers: {
           "Content-Type": "application/json",
         },
         method: "DELETE",
-        body: JSON.stringify({ imageName: imageName }),
+        body: JSON.stringify({ imagePath: imagePath }),
       });
       const responseData = await response.json();
       this.images = responseData.images;
@@ -97,7 +107,7 @@ app.component("app-image", {
   <div class="grid_image-container" @mouseenter="showTheBanner" @mouseleave="showTheBanner">
     <transition name="banner">
       <div v-if="showBanner" class="grid_image-banner">
-      <a :download="path" :href="'http://localhost:8080/image-download/' + imageName"><p class="material-icons md-48" @click="deleteImage">download_for_offline</p></a>
+      <a :download="path" :href="'http://localhost:8080/image-download/' + imageName"><p class="material-icons md-48">download_for_offline</p></a>
         <p class="material-icons md-48" @click="deleteImage">cancel</p>
       </div>
     </transition>
@@ -128,8 +138,8 @@ app.component("app-image", {
     },
     deleteImage(event) {
       const image = event.target.parentElement.nextElementSibling;
-      const imageName = image.src.split("/")[12];
-      this.$emit("deleteThisImage", imageName);
+      const imagePath = image.src;
+      this.$emit("deleteThisImage", imagePath);
     },
     // async downloadImage(event) {
     //   const image = event.target;

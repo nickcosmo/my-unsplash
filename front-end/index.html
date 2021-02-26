@@ -38,7 +38,7 @@
       </div>
       <div class="form-background" v-if="showForm" @click="showTheForm"></div>
       <transition>
-        <div v-if="showForm" id="image-form" enc-type="multipart/form-data">
+        <form v-if="showForm" @submit="pushImage" id="image-form" enc-type="multipart/form-data">
           <div id="upload-wrapper">
             <div id="preview" v-if="file">
               <img :src="previewUrl" alt="image-preview" />
@@ -60,12 +60,12 @@
           </div>
           <div class="image-name-container">
             <label for="image-name">Title:</label>
-            <input @input="updateFileName" type="text" name="image-name" id="image-name-input" />
+            <input type="text" name="image-name" v-model=fileName id="image-name-input" />
           </div>
-          <button v-if="file" class="form_button" @click="pushImage">
+          <button v-if="file" class="form_button" type="submit">
             Upload!
           </button>
-        </div>
+        </form>
       </transition>
       <div class="images" v-if="images.length !== 0">
         <div v-for="image in images">
