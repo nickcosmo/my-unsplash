@@ -1,9 +1,6 @@
 const app = Vue.createApp({
   data() {
     return {
-      // imageName: "",
-      // uploadedAt: "",
-      // userName: "",
       file: null,
       fileName: null,
       imageUrl: "",
@@ -54,6 +51,7 @@ const app = Vue.createApp({
       this.images.unshift({ path: responseData.path.toString(), name: responseData.name });
       this.showForm = false;
       this.file = null;
+      this.fileName = null;
     },
     async sendImageDeletion(imagePath) {
       const response = await fetch("http://localhost:8080/delete-image", {
