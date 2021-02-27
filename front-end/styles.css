@@ -108,6 +108,11 @@ button.material-icons {
   height: 60px;
   position: absolute;
   /* background-color: rgba(0, 0, 0, 0.05); */
+  background: linear-gradient(
+    to bottom,
+    rgba(39, 39, 39, 0.4),
+    rgba(255, 0, 0, 0)
+  );
   padding: 0 10px;
   display: flex;
   align-items: center;
@@ -118,12 +123,22 @@ button.material-icons {
   color: #EFEFEF;
 }
 
-.grid_image-banner p {
+.grid_image-banner .delete-icon,
+.grid_image-banner .download-icon {
   font-size: 48px;
   opacity: 80%;
 }
 
-.grid_image-banner p:hover {
+.grid_image-banner .image-name {
+  padding: 0 5px;
+  white-space: nowrap;
+  overflow: hidden;
+  font-size: 24px;
+  opacity: 80%;
+}
+
+.grid_image-banner .delete-icon:hover,
+.grid_image-banner .download-icon:hover {
   opacity: 100%;
 }
 

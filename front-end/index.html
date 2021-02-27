@@ -23,7 +23,7 @@
           <h1 class="material-icons">camera</h1>
           <h1 style="margin-right: 10px">My Unsplash</h1>
           <!-- <i class="material-icons">search</i> -->
-          <input type="text" name="search" id="search" placeholder="search for an image"/>
+          <input type="text" name="search" id="search" v-model="search" @input="searchImages" placeholder="search for an image"/>
         </div>
         <div style="display: flex; align-items: center">
           <h2>Add a New Photo</h2>
@@ -68,7 +68,14 @@
         </form>
       </transition>
       <div class="images" v-if="images.length !== 0">
-        <div v-for="image in images">
+        <div v-if="search" v-for="image in filteredImages">
+          <app-image
+            :key="image"
+            :="image"
+            @delete-this-image="sendImageDeletion"
+          ></app-image>
+        </div>
+        <div v-else v-for="image in images">
           <app-image
             :key="image"
             :="image"

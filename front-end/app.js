@@ -6,6 +6,8 @@ const app = Vue.createApp({
       imageUrl: "",
       images: [],
       showForm: false,
+      search: null,
+      filteredImages: []
     };
   },
   computed: {
@@ -24,18 +26,22 @@ const app = Vue.createApp({
     },
     gotDragFile(data) {
       this.file = data[0];
-      Object.defineProperty(this.file, 'name', {
+      Object.defineProperty(this.file, "name", {
         writable: true,
-        value: "name.jpg"
+        value: "name.jpg",
       });
       console.log(data[0]);
     },
     updateFileName(e) {
       this.fileName = e.target.value;
-      Object.defineProperty(this.file, 'name', {
+      Object.defineProperty(this.file, "name", {
         writable: true,
-        value: e.target.value + ".jpg"
+        value: e.target.value + ".jpg",
       });
+    },
+    searchImages() {
+      console.log(this.search);
+      this.filteredImages = this.images.filter(image => image.name.includes(this.search));
     },
     async pushImage(e) {
       e.preventDefault();
@@ -48,7 +54,10 @@ const app = Vue.createApp({
       });
       const responseData = await response.json();
       // this.imageUrl = responseData.path.toString();
-      this.images.unshift({ path: responseData.path.toString(), name: responseData.name });
+      this.images.unshift({
+        path: responseData.path.toString(),
+        name: responseData.name,
+      });
       this.showForm = false;
       this.file = null;
       this.fileName = null;
@@ -105,8 +114,9 @@ app.component("app-image", {
   <div class="grid_image-container" @mouseenter="showTheBanner" @mouseleave="showTheBanner">
     <transition name="banner">
       <div v-if="showBanner" class="grid_image-banner">
-      <a :download="path" :href="'http://localhost:8080/image-download/' + imageName"><p class="material-icons md-48">download_for_offline</p></a>
-        <p class="material-icons md-48" @click="deleteImage">cancel</p>
+        <a :download="path" :href="'http://localhost:8080/image-download/' + imageName"><p class="material-icons md-48 download-icon">download_for_offline</p></a>
+        <p class="image-name">{{ name }}</p>
+        <p class="material-icons md-48 delete-icon" @click="deleteImage">cancel</p>
       </div>
     </transition>
     <img
@@ -116,7 +126,7 @@ app.component("app-image", {
     />
   </div>
   `,
-  props: ["path"],
+  props: ["path", "name"],
   data() {
     return {
       showBanner: false,
@@ -125,8 +135,8 @@ app.component("app-image", {
   computed: {
     imageName() {
       return this.path.split("/")[2];
-    }
-  },  
+    },
+  },
   methods: {
     showTheBanner() {
       this.showBanner = !this.showBanner;
