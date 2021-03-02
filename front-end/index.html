@@ -19,14 +19,14 @@
   <body>
     <div id="app">
       <div class="nav">
-        <div class="nav-left" style="display: flex; align-items: center">
+        <div style="display: flex; align-items: center">
           <h1 class="material-icons">camera</h1>
           <h1 style="margin-right: 10px">My Unsplash</h1>
           <!-- <i class="material-icons">search</i> -->
           <input type="text" name="search" id="search" v-model="search" @input="searchImages" placeholder="search for an image"/>
         </div>
         <div style="display: flex; align-items: center">
-          <h2>Add a New Photo</h2>
+          <!-- <h2>Add a New Photo</h2> -->
           <button
             @click="showTheForm"
             :class="{open: showForm}"
