@@ -14,3 +14,7 @@ Create my Unsplash app. Use Front-end libraries like React or Vue. Create your o
 - [x] I can search for photos by label
 - [x] When I hover a photo, I can see a label and a delete button
 - [x] I can delete images
+
+My additions:
+ * Drag and drop file uploader
+ * Ability to download images
