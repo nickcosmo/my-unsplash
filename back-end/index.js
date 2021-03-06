@@ -43,20 +43,21 @@ const fileFilter = (req, file, cb) => {
 app.use(multer({ storage: storage, fileFilter: fileFilter }).single("image"));
 
 app.get("/all", async (req, res, next) => {
+  const imageFiles = await getDb()
+  .collection("images")
+  .find()
+  .sort(["_id", -1])
+  .toArray();
+  
+  res.status(200).json({ images: imageFiles });
+
   // const imagesPath = path.join(__dirname, "/images");
   // const files = fs.readdirSync(imagesPath);
-
-  const imageFiles = await getDb()
-    .collection("images")
-    .find()
-    .sort(["_id", -1])
-    .toArray();
 
   // const imageFiles = files.map((path) => __dirname + "/images" + "/" + path);
   // for (let i = 0; i < imageFiles.length; i++) {
   //   imageFiles[i] = { imageUrl: imageFiles[i] };
   // }
-  res.status(200).json({ images: imageFiles });
 });
 
 app.post("/image-upload", async (req, res, next) => {
@@ -72,7 +73,7 @@ app.post("/image-upload", async (req, res, next) => {
         path: __dirname + "/" + req.file.path,
         name: req.body.fileName,
       });
-    res.status(200).json({ path: newImage.ops[0].path });
+    res.status(200).json({ path: newImage.ops[0].path, name: newImage.ops[0].name });
   } catch (err) {
     console.log(err);
   }
@@ -80,9 +81,13 @@ app.post("/image-upload", async (req, res, next) => {
 
 app.get("/image-download/:imageName", (req, res, next) => {
   const image = path.join(__dirname, "/images", `/${req.params.imageName}`);
+  
+  const file = fs.createReadStream(image);
+  
   res.setHeader("Content-Type", "image/jpeg");
   res.setHeader("Content-Disposition", "attachment");
-  res.download(image);
+
+  file.pipe(res);
 });
 
 app.delete("/delete-image", async (req, res, next) => {
