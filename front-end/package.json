@@ -1,11 +1,16 @@
 {
-  "name": "front-end",
-  "version": "1.0.0",
-  "description": "",
-  "main": "app.js",
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "Nick Lansing",
-  "license": "ISC"
+    "name": "front-end",
+    "version": "1.0.0",
+    "description": "Front-End for My-Unsplash",
+    "main": "app.js",
+    "scripts": {
+        "serve": "npx http-server -p=8081",
+        "webpack": "webpack"
+    },
+    "author": "Nick Lansing",
+    "license": "ISC",
+    "devDependencies": {
+        "webpack": "^5.38.1",
+        "webpack-cli": "^4.7.2"
+    }
 }
