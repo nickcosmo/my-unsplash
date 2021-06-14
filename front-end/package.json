@@ -5,12 +5,14 @@
     "main": "app.js",
     "scripts": {
         "serve": "npx http-server -p=8081",
-        "webpack": "webpack"
+        "webpack": "webpack --config webpack.config.js"
     },
     "author": "Nick Lansing",
     "license": "ISC",
     "devDependencies": {
         "webpack": "^5.38.1",
-        "webpack-cli": "^4.7.2"
+        "webpack-cli": "^4.7.2",
+        "css-loader": "^5.2.6",
+        "style-loader": "^2.0.0"
     }
 }
