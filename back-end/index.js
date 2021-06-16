@@ -63,7 +63,8 @@ app.post('/image-upload', async (req, res, next) => {
         const newImage = await getDb()
             .collection('images')
             .insertOne({
-                path: __dirname + '/' + req.file.path,
+                // path: __dirname + '/' + req.file.path,
+                path: process.env.ROOT_LOCATION + req.file.path,
                 name: req.body.fileName,
             });
         res.status(200).json({ path: newImage.ops[0].path, name: newImage.ops[0].name });
