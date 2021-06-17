@@ -4,13 +4,14 @@ const path = require('path');
 const bodyParser = require('body-parser');
 const fs = require('fs');
 const { initDb, getDb } = require('./db.js');
+const { v4: uuidv4 } = require('uuid');
 
 const app = express();
 
 require('dotenv').config();
 
 app.use(bodyParser.json());
-app.use('/images', express.static(path.join(__dirname, 'images-folder')));
+app.use('/images', express.static('images'));
 
 app.use((req, res, next) => {
     res.setHeader('Access-Control-Allow-Origin', '*'); // allow any origin to access API data
@@ -24,7 +25,7 @@ const storage = multer.diskStorage({
         cb(null, 'images');
     },
     filename: function (req, file, cb) {
-        cb(null, Date.now() + '-' + req.body.fileName + '.jpg');
+        cb(null, uuidv4());
     },
 });
 
@@ -60,13 +61,10 @@ app.post('/image-upload', async (req, res, next) => {
     req.file.path = req.file.path.replace('\\', '/');
 
     try {
-        const newImage = await getDb()
-            .collection('images')
-            .insertOne({
-                // path: __dirname + '/' + req.file.path,
-                path: process.env.ROOT_LOCATION + req.file.path,
-                name: req.body.fileName,
-            });
+        const newImage = await getDb().collection('images').insertOne({
+            path: req.file.path,
+            name: req.body.fileName,
+        });
         res.status(200).json({ path: newImage.ops[0].path, name: newImage.ops[0].name });
     } catch (err) {
         console.log(err);
