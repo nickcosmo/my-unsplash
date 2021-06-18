@@ -4,56 +4,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
         <title>Image Uploader</title>
         <link rel="preconnect" href="https://fonts.gstatic.com" />
-        <script src="https://unpkg.com/vue@next" defer></script>
+        <!-- <script src="https://unpkg.com/vue@next" defer></script> -->
         <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@600&display=swap" rel="stylesheet" />
         <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
     </head>
     <body>
         <div id="app">
-            <nav>
-                <div>
-                    <h1 class="material-icons">camera</h1>
-                    <h1>My Unsplash</h1>
-                    <!-- <i class="material-icons">search</i> -->
-                    <input type="text" name="search" v-model="search" @input="searchImages" placeholder="search for an image" />
-                </div>
-                <div>
-                    <button @click="showTheForm" :class="{open: showForm}" class="material-icons">add</button>
-                </div>
-            </nav>
-            <div class="form-background" v-if="showForm" @click="showTheForm"></div>
-            <transition>
-                <form v-if="showForm" @submit="pushImage" id="image-form" enc-type="multipart/form-data">
-                    <div id="upload-wrapper">
-                        <div id="preview" v-if="file">
-                            <img :src="previewUrl" alt="image-preview" />
-                        </div>
-                        <upload-area v-else @got-drag-file="gotDragFile">
-                            <p class="material-icons">image_search</p>
-                            <label for="image-input">
-                                <strong>Click here to add image</strong>
-                                <input v-on:change="newFile" ref="file" type="file" name="image-input" id="image-input"
-                            /></label>
-                            <p>Or</p>
-                            <p>Drag and Drop ....</p>
-                        </upload-area>
-                    </div>
-                    <div class="image-name-container">
-                        <label for="image-name">Title:</label>
-                        <input type="text" name="image-name" v-model="fileName" id="image-name-input" />
-                    </div>
-                    <button v-if="file" class="form_button" type="submit">Upload!</button>
-                </form>
-            </transition>
-            <div class="images" v-if="images.length !== 0">
-                <div v-if="search" v-for="image in filteredImages">
-                    <app-image :key="image" :="image" @delete-this-image="sendImageDeletion"></app-image>
-                </div>
-                <div v-else v-for="image in images">
-                    <app-image :key="image" :="image" @delete-this-image="sendImageDeletion"></app-image>
-                </div>
-            </div>
-            <!-- <div class="images" v-else>No Images :(</div> -->
         </div>
     </body>
 </html>
