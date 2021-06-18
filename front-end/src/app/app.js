@@ -79,6 +79,9 @@ export default {
             method: 'GET',
         });
         const responseData = await response.json();
+        responseData.images.forEach((image) => {
+            image.path = 'http://localhost:8080/' + image.path;
+        });
         this.images = responseData.images;
         // console.log(JSON.parse(JSON.stringify(this.images))[0].imageUrl);
     },
