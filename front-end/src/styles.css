@@ -12,6 +12,8 @@ body {
 
 button {
     outline: none;
+    border-style: none;
+    cursor: pointer;
 }
 
 /* nav */
@@ -169,7 +171,7 @@ nav input {
 }
 
 #image-form input,
-#image-form button {
+#image-form .form-button {
     margin-top: 10px;
     font-size: 20px;
     text-align: center;
@@ -191,7 +193,7 @@ nav input {
     color: rgb(47, 47, 230);
 }
 
-#image-form button {
+#image-form .form-button {
     /* background: rgba(48, 48, 48, 1); */
     background-color: #00d100;
     border-radius: 10px;
@@ -203,7 +205,7 @@ nav input {
     color: #ffffff;
 }
 
-#image-form button:hover {
+#image-form .form-button:hover {
     box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
     transform: translateY(-2px);
 }
