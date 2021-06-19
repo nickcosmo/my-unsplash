@@ -34,3 +34,19 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+#file-drag {
+  width: 90%;
+  height: 90%;
+  flex-direction: column;
+  background-color: rgb(212, 212, 212);
+  border-radius: 10px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  display: flex;
+  padding: 10px;
+}
+
+</style>

@@ -1,34 +1,17 @@
 <template>
   <div>
-    <nav>
-      <div>
-        <h1 class="material-icons">camera</h1>
-        <h1>My Unsplash</h1>
-        <!-- <i class="material-icons">search</i> -->
-        <input
-          type="text"
-          name="search"
-          v-model="search"
-          @input="searchImages"
-          placeholder="search for an image"
-        />
-      </div>
-      <div>
-        <button
-          @click="toggleForm"
-          :class="{ open: showForm }"
-          class="material-icons"
-        >
-          add
-        </button>
-      </div>
-    </nav>
+    <TheNav
+      :showForm="showForm"
+      @toggleForm="toggleForm"
+      @searchImages="searchImages"
+    />
+
     <div class="form-background" v-if="showForm" @click="toggleForm"></div>
 
     <image-form :showForm="showForm" @newImage="pushImage"></image-form>
 
-    <div class="images" v-if="images.length !== 0">
-      <div v-if="search">
+    <div v-if="images.length !== 0">
+      <div class="images" v-if="filteredImages.length">
         <div v-for="(image, i) in filteredImages" :key="i">
           <app-image
             :key="image"
@@ -37,12 +20,14 @@
           ></app-image>
         </div>
       </div>
-      <div v-else v-for="(image, i) in images" :key="i">
-        <app-image
-          :key="image"
-          :="image"
-          @delete-this-image="sendImageDeletion"
-        ></app-image>
+      <div class="images" v-else>
+        <div v-for="(image, i) in images" :key="i">
+          <app-image
+            :key="image"
+            :="image"
+            @delete-this-image="sendImageDeletion"
+          ></app-image>
+        </div>
       </div>
     </div>
     <!-- <div class="images" v-else>No Images :(</div> -->
@@ -52,10 +37,12 @@
 <script>
 import AppImage from "./components/AppImage.vue";
 import ImageForm from "./components/ImageForm.vue";
+import TheNav from "./components/TheNav.vue";
 
 export default {
   components: {
     AppImage,
+    TheNav,
     ImageForm,
   },
   data() {
@@ -63,7 +50,6 @@ export default {
       // imageUrl: "",
       images: [],
       showForm: false,
-      search: null,
       filteredImages: [],
     };
   },
@@ -83,10 +69,9 @@ export default {
     //     value: e.target.value + ".jpg",
     //   });
     // },
-    searchImages() {
-      console.log(this.search);
+    searchImages(searchString) {
       this.filteredImages = this.images.filter((image) =>
-        image.name.includes(this.search)
+        image.name.includes(searchString)
       );
     },
     async sendImageDeletion(imagePath) {
@@ -114,3 +99,35 @@ export default {
   },
 };
 </script>
+
+<style scoped>
+.images {
+  display: grid;
+  margin: 15px auto;
+  max-width: 75%;
+  grid-template-columns: 1fr;
+  grid-gap: 15px;
+}
+
+.form-background {
+  z-index: 199;
+  background-color: rgba(0, 0, 0, 0.5);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  position: fixed;
+}
+
+@media screen and (min-width: 520px) {
+  .images {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media screen and (min-width: 900px) {
+  .images {
+    grid-template-columns: 1fr 1fr 1fr;
+  }
+}
+</style>

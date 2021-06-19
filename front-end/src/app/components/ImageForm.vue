@@ -41,7 +41,7 @@
           id="image-name-input"
         />
       </div>
-      <button v-if="file" class="form_button" type="submit">Upload!</button>
+      <button v-if="file" class="form-button" type="submit">Upload!</button>
     </form>
   </transition>
 </template>
@@ -111,6 +111,175 @@ export default {
 .clear-button {
   position: absolute;
   top: 15px;
-  right: 50px;
+  right: 5px;
+}
+
+/* form */
+
+#image-form {
+  z-index: 200;
+  position: fixed;
+  background: #efefef;
+  top: 30%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  left: 5%;
+  max-width: 500px;
+  width: 90%;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  border-radius: 14px;
+  padding: 10px 15px;
+}
+
+#image-form input,
+#image-form .form-button {
+  margin-top: 10px;
+  font-size: 20px;
+  text-align: center;
+  font-family: inherit;
+}
+
+#image-form p {
+  display: inline-block;
+  width: 100%;
+  font-size: 20px;
+}
+
+#image-form .form-button {
+  /* background: rgba(48, 48, 48, 1); */
+  background-color: var(--accent-color);
+  border-radius: 10px;
+  align-self: center;
+  padding: 5px;
+  cursor: pointer;
+  width: 70%;
+  border: none;
+  color: #ffffff;
+}
+
+#image-form .form-button:hover {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+  transform: translateY(-2px);
+}
+
+#image-input {
+  border: none;
+  width: 50%;
+  align-self: center;
+  padding: 5px;
+  border-radius: 8px;
+  cursor: pointer;
+  color: #ffffff;
+}
+
+#image-input[type="file"] {
+  display: none;
+}
+
+#upload-wrapper {
+  display: flex;
+  margin: 5px auto;
+  width: 90%;
+  border-color: rgba(48, 48, 48, 1);
+  border-width: 3px;
+  border-style: dashed;
+  border-radius: 10px;
+  height: 250px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 10px;
+}
+
+#preview img {
+  width: 90%;
+  height: auto;
+}
+
+.image-name-container {
+  display: flex;
+  width: 90%;
+  margin: auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.image-name-container label {
+  display: inline-block;
+  font-size: 24px;
+  width: 20%;
+  color: black;
+  padding-top: 4px;
+}
+
+.image-name-container input {
+  display: inline-block;
+  width: 80%;
+  font-size: 16px;
+  color: black;
+  outline: none;
+  border-radius: 10px;
+  height: 35px;
+  padding: 0 5px;
+  text-align: left !important;
+}
+
+/* file drag */
+
+#file-drag .material-icons {
+  font-size: 36px;
+}
+
+#file-drag label {
+  display: inline-block;
+  width: 100%;
+  font-size: 20px;
+}
+
+#file-drag label {
+  cursor: pointer;
+}
+
+#file-drag label:hover {
+  color: rgb(47, 47, 230);
+}
+
+/* animations and transitions */
+
+.v-enter-from,
+.v-leave-to {
+  transform: translateY(-20px);
+  opacity: 0%;
+}
+
+.v-enter-active,
+.v-leave-active {
+  transition: all 0.5s ease;
+}
+
+.v-enter-to,
+.v-leave-from {
+  transform: translateY(0);
+  opacity: 100%;
+}
+
+@media screen and (min-width: 500px) {
+  #image-form {
+    left: calc(50% - 250px);
+  }
+
+  #upload-wrapper {
+    width: 70%;
+  }
+
+  .image-name-container {
+    width: 70%;
+  }
+
+  .clear-button {
+    right: 50px;
+  }
 }
 </style>
